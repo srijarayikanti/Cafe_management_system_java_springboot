@@ -17,7 +17,7 @@ public class CustomerBilling {
 
     @Id
     @Column(name = "BillingId")
-    private int billingId;
+    private Integer  billingId;
 
     @Column(name = "CustomerId")
     private int customerId;

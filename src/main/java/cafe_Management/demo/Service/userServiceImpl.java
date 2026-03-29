@@ -1,7 +1,38 @@
 package cafe_Management.demo.Service;
 
+import cafe_Management.demo.Repository.userRepository;
+import cafe_Management.demo.enitites.User;
+import cafe_Management.demo.model.RequestUser;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
+@Slf4j
 public class userServiceImpl implements userService {
+
+    private final userRepository userRepository;
+
+    public userServiceImpl(userRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+    @Override
+    public ResponseEntity<?> saveUserDetails(RequestUser requestUser) {
+        Optional<User> userOpt = userRepository.findByUserName(requestUser.getUserName());
+        log.debug("Checking if user exists: {}", requestUser.getUserName());
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Username");
+        }
+        User user = userOpt.get();
+        // Check if passwords match
+        if (user.getPassword().equals(requestUser.getPassword())) {
+            // In a real app, you would return a JWT token here
+            return ResponseEntity.ok("Login Successful! Welcome " + user.getUserName());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Password");
+        }
+    }
 }
