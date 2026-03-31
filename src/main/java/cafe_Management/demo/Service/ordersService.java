@@ -1,9 +1,10 @@
 package cafe_Management.demo.Service;
 
 import cafe_Management.demo.model.RequestOrdersDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ordersService {
-    List<RequestOrdersDto> fetchAllOrders();
+    ResponseEntity<List<RequestOrdersDto>> fetchAllOrders();
 }
