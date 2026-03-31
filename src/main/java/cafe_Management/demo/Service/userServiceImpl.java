@@ -2,12 +2,14 @@ package cafe_Management.demo.Service;
 
 import cafe_Management.demo.Repository.userRepository;
 import cafe_Management.demo.enitites.User;
+import cafe_Management.demo.jwt.JwtUtil;
 import cafe_Management.demo.model.RequestUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class userServiceImpl implements userService {
 
     private final userRepository userRepository;
+    private final JwtUtil jwtUtil;
 
-    public userServiceImpl(userRepository userRepository) {
+    public userServiceImpl(userRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
     @Override
     public ResponseEntity<?> saveUserDetails(RequestUser requestUser) {
@@ -30,7 +34,15 @@ public class userServiceImpl implements userService {
         // Check if passwords match
         if (user.getPassword().equals(requestUser.getPassword())) {
             // In a real app, you would return a JWT token here
-            return ResponseEntity.ok("Login Successful! Welcome " + user.getUserName());
+            String token=jwtUtil.generateToken(user.getUserName());
+            log.debug("Generated JWT token for user {}: {}", user.getUserName(), token);
+
+            return ResponseEntity.ok().body(
+                    Map.of(
+                            "message", "Login Successful",
+                            "token", token
+                    )
+            );
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Password");
         }
