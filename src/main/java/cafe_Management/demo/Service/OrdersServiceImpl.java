@@ -7,6 +7,8 @@ import cafe_Management.demo.enitites.CustomerBilling;
 import cafe_Management.demo.model.RequestCustomerBilling;
 import cafe_Management.demo.model.RequestOrdersDto;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class OrdersServiceImpl implements ordersService{
     }
 
     @Override
-    public List<RequestOrdersDto> fetchAllOrders() {
+    public ResponseEntity<List<RequestOrdersDto>> fetchAllOrders() {
         List<Customer> customers = customerRepository.findAll();
         List<RequestOrdersDto> ordersList = new ArrayList<>();
 
@@ -47,6 +49,6 @@ public class OrdersServiceImpl implements ordersService{
             ordersList.add(ordersDto);
         }
 
-        return ordersList;
+        return new ResponseEntity<>(ordersList, HttpStatus.OK);
     }
 }
