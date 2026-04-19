@@ -57,4 +57,24 @@ public interface customerController {
     )
     @CrossOrigin
     ResponseEntity<?> saveCustomerBillingDetails(@RequestBody RequestCustomerBilling request);
+
+    @Operation(
+            summary="fetchCustomerDetailsByEmailId",
+            operationId="fetchCustomerDetailsByEmailId",
+            tags="Customer",
+            responses = {
+                    @ApiResponse(responseCode = "200",description = "saveCustomer saved successfully",content=@Content(mediaType ="application/json",
+                            schema = @Schema(implementation = Customer.class))),
+                    @ApiResponse(responseCode = "401",description = "Error occurred",content=@Content(mediaType ="application/json",
+                            schema = @Schema(implementation = Customer.class)))
+
+            }
+    )
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "/customer/fetchCustomerDetailsByEmailId",
+            produces = "application/json"
+    )
+    @CrossOrigin
+    ResponseEntity<?> fetchCustomerDetailsByEmailId(String email);
 }

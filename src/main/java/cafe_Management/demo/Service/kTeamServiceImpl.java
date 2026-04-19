@@ -22,6 +22,7 @@ public class kTeamServiceImpl implements kTeamService {
         return ResponseEntity.ok(kitchenTeam);
     }
 
+    @Override
     public ResponseEntity<?> fetchKTeamDetails() {
         return ResponseEntity.ok(kTeamRepository.findAll());
     }
