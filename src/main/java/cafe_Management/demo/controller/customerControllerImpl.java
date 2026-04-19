@@ -4,7 +4,6 @@ import cafe_Management.demo.Service.customerService;
 import cafe_Management.demo.model.RequestCustomerBilling;
 import cafe_Management.demo.model.customerRequestDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class customerControllerImpl  implements customerController {
@@ -33,5 +32,15 @@ public class customerControllerImpl  implements customerController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> fetchCustomerDetailsByEmailId(String email) {
+        try {
+            return customerService.fetchCustomerDetailsByEmailId(email);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

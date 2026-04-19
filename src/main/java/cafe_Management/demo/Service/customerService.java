@@ -8,4 +8,6 @@ public interface customerService {
     ResponseEntity<?> saveCustomerDetails(customerRequestDto request);
 
     ResponseEntity<?> saveCustomerBillingDetails(RequestCustomerBilling request);
+
+    ResponseEntity<?> fetchCustomerDetailsByEmailId(String email);
 }

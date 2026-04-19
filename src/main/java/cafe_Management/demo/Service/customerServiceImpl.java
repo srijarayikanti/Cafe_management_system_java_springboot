@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class customerServiceImpl implements  customerService {
@@ -69,5 +70,16 @@ public class customerServiceImpl implements  customerService {
             BeanUtils.copyProperties(customerBilling,responseCustomer);
             responseCustomer.setMessage("Customer billing details saved successfully for customer : " + customerBilling.getCustomerId());
             return ResponseEntity.ok(responseCustomer);
+    }
+
+    @Override
+    public ResponseEntity<?> fetchCustomerDetailsByEmailId(String email) {
+        List<Customer> customer = customerRepository.findByEmail(email);
+        if (customer == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Customer responseCustomer = new Customer();
+        BeanUtils.copyProperties(customer, responseCustomer);
+        return ResponseEntity.ok(responseCustomer);
     }
 }
