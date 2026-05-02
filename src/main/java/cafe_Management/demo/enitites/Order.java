@@ -1,9 +1,11 @@
 package cafe_Management.demo.enitites;
 
+import cafe_Management.demo.model.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -17,7 +19,8 @@ public class Order {
 
     private Double totalAmount;
 
-    private String status; // CREATED, PAID, CANCELLED
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // CREATED, PAID, CANCELLED
 
     // Many orders belong to one customer
     @ManyToOne
