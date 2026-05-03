@@ -14,11 +14,9 @@ public interface ordersService {
 
     Order createOrder(CreateOrderRequest request);
 
-    Order createOrder(CreateOrderRequest request);
 
     Order getOrderById(Long orderId);
 
-    List<Order> getOrdersByCustomer(Long customerId);
 
-    void cancelOrder(Long orderId);
+    ResponseEntity<?> cancelOrder(Long orderId);
 }

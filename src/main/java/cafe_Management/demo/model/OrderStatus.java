@@ -1,7 +1,7 @@
 package cafe_Management.demo.model;
 
 
-public class OrderStatus {
+public enum OrderStatus {
     CREATED,
     PAID,
     CANCELLED

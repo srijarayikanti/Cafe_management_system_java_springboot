@@ -30,4 +30,6 @@ public class Order {
     // One order has many order items
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
+
+
 }

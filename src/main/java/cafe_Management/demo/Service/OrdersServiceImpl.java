@@ -5,10 +5,7 @@ import cafe_Management.demo.Repository.ProductRepository;
 import cafe_Management.demo.Repository.customerBillingRepository;
 import cafe_Management.demo.Repository.customerRepository;
 import cafe_Management.demo.enitites.*;
-import cafe_Management.demo.model.CreateOrderRequest;
-import cafe_Management.demo.model.OrderItemRequest;
-import cafe_Management.demo.model.RequestCustomerBilling;
-import cafe_Management.demo.model.RequestOrdersDto;
+import cafe_Management.demo.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -128,15 +125,11 @@ public class OrdersServiceImpl implements ordersService{
                 .orElseThrow(() -> new RuntimeException("Order not found"));
     }
 
-    @Override
-    public List<Order> getOrdersByCustomer(Long customerId) {
-        return orderRepository.findByCustomerId(customerId);
-    }
 
     @Override
-    public void cancelOrder(Long orderId) {
+    public ResponseEntity<?> cancelOrder(Long orderId) {
 
-        Order order = orderRepository.findById(orderId)
+        Order order = (Order) orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
         if (order.getStatus() == OrderStatus.PAID) {
@@ -145,5 +138,6 @@ public class OrdersServiceImpl implements ordersService{
 
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
+        return new ResponseEntity<>("Order cancelled successfully", HttpStatus.OK);
     }
 }
